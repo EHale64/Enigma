@@ -20,4 +20,9 @@ class EnigmaTest < Minitest::Test
     assert_equal "00009", @enigma.pad(9)
     assert_equal "00000", @enigma.pad(0)
   end
+
+  def test_it_can_generate_a_random_number
+    @enigma.stubs(:rand_num).returns(24689)
+    assert_equal 24689 , @enigma.rand_num
+  end
 end
