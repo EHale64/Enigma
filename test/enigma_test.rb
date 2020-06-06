@@ -30,9 +30,13 @@ class EnigmaTest < Minitest::Test
     assert_equal ["24", "46", "68", "89"], @enigma.shift_keys("24689")
   end
 
-  def test_it_can_use_date_to_produce_an_offset
+  def test_it_can_get_date
     Date.stubs(:today).returns(Date.new(1990, 8, 16))
     assert_equal "160890", @enigma.date
+  end
+
+  def test_it_produces_offset_from_date
+    assert_equal ["2", "1", "0", "0"], @enigma.produce_offset("160890")
   end
 
 end

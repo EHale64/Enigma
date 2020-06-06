@@ -22,4 +22,9 @@ class Enigma
   def date
     date = Date.today.strftime("%d%m%y")
   end
+
+  def produce_offset(date)
+    squared_date = date.to_i * date.to_i
+    squared_date.to_s.chars.last(4)
+  end
 end
