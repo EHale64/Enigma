@@ -4,8 +4,8 @@ class Enigma
     rand(99999)
   end
 
-  def zero_pad(number)
-    pad_num = number.to_s
+  def zero_pad(key)
+    pad_num = key.to_s
     pad_num.insert(0, "0") until pad_num.size == 5
     pad_num
   end
@@ -26,5 +26,15 @@ class Enigma
   def produce_offset(date)
     squared_date = date.to_i * date.to_i
     squared_date.to_s.chars.last(4)
+  end
+
+  def shifts(key, date)
+    key_array = shift_keys(zero_pad(key))
+    offset = produce_offset(date)
+    shifts = []
+    offset.each_with_index do |element, index|
+      shifts << element.to_i + key_array[index].to_i
+    end
+    shifts
   end
 end
