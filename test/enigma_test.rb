@@ -12,12 +12,12 @@ class EnigmaTest < Minitest::Test
     assert_instance_of Enigma, @enigma
   end
 
-  def test_it_can_generate_a_random_number
-    @enigma.stubs(:rand_num).returns(24689)
-    assert_equal 24689 , @enigma.rand_num
+  def test_it_can_generate_a_random_key
+    @enigma.stubs(:rand_key).returns(24689)
+    assert_equal 24689 , @enigma.rand_key
   end
 
-  def test_it_can_generate_a_0_padded_number
+  def test_it_can_generate_a_0_padded_key
     assert_equal "24689", @enigma.zero_pad(24689)
     assert_equal "04689", @enigma.zero_pad(4689)
     assert_equal "00689", @enigma.zero_pad(689)
@@ -26,8 +26,13 @@ class EnigmaTest < Minitest::Test
     assert_equal "00000", @enigma.zero_pad(0)
   end
 
-  def test_it_can_split_number
+  def test_it_can_split_key_into_keys
     assert_equal ["24", "46", "68", "89"], @enigma.shift_keys("24689")
+  end
+
+  def test_it_can_use_date_to_produce_an_offset
+    Date.stubs(:today).returns(Date.new(1990, 8, 16))
+    assert_equal "160890", @enigma.date
   end
 
 end
