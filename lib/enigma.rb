@@ -5,6 +5,35 @@ class Enigma
   def initialize
     @alphabet = Array("a".."z")<< " "
   end
+
+  def cipher(string, shifts)
+    indexes_plus_shifts = []
+    to_indexes(string).each_with_index do |number, index|
+      indexes_plus_shifts << number + shifts[index%4]
+    end
+    indexes_to_string(indexes_plus_shifts)
+  end
+
+  def decipher(string, shifts)
+    indexes_plus_shifts = []
+    to_indexes(string).each_with_index do |number, index|
+      indexes_plus_shifts << number - shifts[index%4]
+    end
+    indexes_to_string(indexes_plus_shifts)
+  end
+
+  def to_indexes(string)
+    string_array = string.downcase.chars
+    string_array.map do |char|
+      @alphabet.find_index(char)
+    end
+  end
+
+  def indexes_to_string(shifts)
+    shifts.map do |number|
+      @alphabet.rotate(number)[0]
+    end.join
+  end
   # def rand_key
   #   rand(99999)
   # end
@@ -42,33 +71,4 @@ class Enigma
   #   end
   #   shifts
   # end
-
-  def to_indexes(string)
-    string_array = string.downcase.chars
-    string_array.map do |char|
-      @alphabet.find_index(char)
-    end
-  end
-
-  def indexes_to_string(string, shifts)
-    shifts.map do |number|
-      @alphabet.rotate(number)[0]
-    end.join
-  end
-
-  def cipher(string, shifts)
-    indexes_plus_shifts = []
-    to_indexes(string).each_with_index do |number, index|
-      indexes_plus_shifts << number + shifts[index%4]
-    end
-    indexes_to_string(string, indexes_plus_shifts)
-  end
-
-  def decipher(string, shifts)
-    indexes_plus_shifts = []
-    to_indexes(string).each_with_index do |number, index|
-      indexes_plus_shifts << number - shifts[index%4]
-    end
-    indexes_to_string(string, indexes_plus_shifts)
-  end
 end

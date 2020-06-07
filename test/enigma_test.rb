@@ -18,6 +18,29 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.alphabet
   end
 
+  def test_it_can_get_string_from_indexes
+    assert_equal "keder ohulw", @enigma.indexes_to_string([10, 31, 84, 31, 17, 53, 95, 34, 20, 38, 76])
+  end
+
+  def test_it_can_cipher
+    assert_equal "keder ohulw", @enigma.cipher("HELLO WORLD", [3, 27, 73, 20])
+  end
+
+  def test_it_can_decipher
+    assert_equal "hello world", @enigma.decipher("keder ohulw", [3, 27, 73, 20])
+  end
+  
+  def test_it_can_get_indexes
+    expected = [7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3]
+    assert_equal expected, @enigma.to_indexes("HELLO WORLD")
+  end
+
+  def test_it_can_add_shifts_to_indexes
+    skip
+    expected = [10, 31, 84, 31, 17, 53, 95, 34, 20, 38, 76]
+    assert_equal expected, @enigma.("HELLO WORLD", [3, 27, 73, 20])
+  end
+
   def test_it_can_generate_a_random_key
     skip
     @enigma.stubs(:rand_key).returns(02715)
@@ -53,28 +76,5 @@ class EnigmaTest < Minitest::Test
   def test_it_can_add_key_and_offset
     skip
     assert_equal [3, 27, 73, 20], @enigma.shifts("02715", "040895")
-  end
-
-  def test_it_can_get_indexes
-    expected = [7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3]
-    assert_equal expected, @enigma.to_indexes("HELLO WORLD")
-  end
-
-  def test_it_can_add_shifts_to_indexes
-    skip
-    expected = [10, 31, 84, 31, 17, 53, 95, 34, 20, 38, 76]
-    assert_equal expected, @enigma.("HELLO WORLD", [3, 27, 73, 20])
-  end
-
-  def test_it_can_get_string_from_indexes
-    assert_equal "keder ohulw", @enigma.indexes_to_string("HELLO WORLD", [10, 31, 84, 31, 17, 53, 95, 34, 20, 38, 76])
-  end
-
-  def test_it_can_cipher
-    assert_equal "keder ohulw", @enigma.cipher("HELLO WORLD", [3, 27, 73, 20])
-  end
-
-  def test_it_can_decipher
-    assert_equal "hello world", @enigma.decipher("keder ohulw", [3, 27, 73, 20])
   end
 end
