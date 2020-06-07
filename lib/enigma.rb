@@ -46,16 +46,26 @@ class Enigma
     end
   end
 
-  def shifted_indexes(string, shift)
-    to_indexes(string).map do |number|
-      number + shift
-    end
-  end
-
-  def cipher(string, shift)
+  def indexes_to_string(string, shifts)
     alphabet = Array("a".."z")<< " "
-    shifted_indexes(string, shift).map do |number|
+    shifts.map do |number|
       alphabet.rotate(number)[0]
     end.join
+  end
+
+  def cipher(string, shifts)
+    indexes_plus_shifts = []
+    to_indexes(string).each_with_index do |number, index|
+      indexes_plus_shifts << number + shifts[index%4]
+    end
+    indexes_to_string(string, indexes_plus_shifts)
+  end
+
+  def decipher(string, shifts)
+    indexes_plus_shifts = []
+    to_indexes(string).each_with_index do |number, index|
+      indexes_plus_shifts << number - shifts[index%4]
+    end
+    indexes_to_string(string, indexes_plus_shifts)
   end
 end

@@ -13,34 +13,34 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_generate_a_random_key
-    @enigma.stubs(:rand_key).returns(24689)
-    assert_equal 24689 , @enigma.rand_key
+    @enigma.stubs(:rand_key).returns(02715)
+    assert_equal 02715 , @enigma.rand_key
   end
 
   def test_it_can_generate_a_0_padded_key
-    assert_equal "24689", @enigma.zero_pad(24689)
-    assert_equal "04689", @enigma.zero_pad(4689)
-    assert_equal "00689", @enigma.zero_pad(689)
-    assert_equal "00089", @enigma.zero_pad(89)
-    assert_equal "00009", @enigma.zero_pad(9)
+    assert_equal "12715", @enigma.zero_pad(12715)
+    assert_equal "02715", @enigma.zero_pad(2715)
+    assert_equal "00715", @enigma.zero_pad(715)
+    assert_equal "00015", @enigma.zero_pad(15)
+    assert_equal "00005", @enigma.zero_pad(5)
     assert_equal "00000", @enigma.zero_pad(0)
   end
 
   def test_it_can_split_key_into_keys
-    assert_equal ["24", "46", "68", "89"], @enigma.shift_keys("24689")
+    assert_equal ["02", "27", "71", "15"], @enigma.shift_keys("02715")
   end
 
   def test_it_can_get_date
-    Date.stubs(:today).returns(Date.new(1990, 8, 16))
-    assert_equal "160890", @enigma.date
+    Date.stubs(:today).returns(Date.new(1995, 8, 4))
+    assert_equal "040895", @enigma.date
   end
 
   def test_it_produces_offset_from_date
-    assert_equal ["2", "1", "0", "0"], @enigma.produce_offset("160890")
+    assert_equal ["1", "0", "2", "5"], @enigma.produce_offset("040895")
   end
 
   def test_it_can_add_key_and_offset
-    assert_equal [26, 47, 68, 89], @enigma.shifts("24689", "160890")
+    assert_equal [3, 27, 73, 20], @enigma.shifts("02715", "040895")
   end
 
   def test_it_can_get_indexes
@@ -49,11 +49,20 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_add_shifts_to_indexes
-    expected = [33, 30, 37, 37, 40, 52, 48, 40, 43, 37, 29]
-    assert_equal expected, @enigma.shifted_indexes("HELLO WORLD", 26)
+    skip
+    expected = [10, 31, 84, 31, 17, 53, 95, 34, 20, 38, 76]
+    assert_equal expected, @enigma.("HELLO WORLD", [3, 27, 73, 20])
+  end
+
+  def test_it_can_get_string_from_indexes
+    assert_equal "keder ohulw", @enigma.indexes_to_string("HELLO WORLD", [10, 31, 84, 31, 17, 53, 95, 34, 20, 38, 76])
   end
 
   def test_it_can_cipher
-    assert_equal "gdkknzvnqkc", @enigma.cipher("HELLO WORLD", 26)
+    assert_equal "keder ohulw", @enigma.cipher("HELLO WORLD", [3, 27, 73, 20])
+  end
+
+  def test_it_can_decipher
+    assert_equal "hello world", @enigma.decipher("keder ohulw", [3, 27, 73, 20])
   end
 end
