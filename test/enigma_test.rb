@@ -12,12 +12,20 @@ class EnigmaTest < Minitest::Test
     assert_instance_of Enigma, @enigma
   end
 
+  def test_it_has_attributes
+    expected = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+       "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "]
+    assert_equal expected, @enigma.alphabet
+  end
+
   def test_it_can_generate_a_random_key
+    skip
     @enigma.stubs(:rand_key).returns(02715)
     assert_equal 02715 , @enigma.rand_key
   end
 
   def test_it_can_generate_a_0_padded_key
+    skip
     assert_equal "12715", @enigma.zero_pad(12715)
     assert_equal "02715", @enigma.zero_pad(2715)
     assert_equal "00715", @enigma.zero_pad(715)
@@ -27,19 +35,23 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_split_key_into_keys
+    skip
     assert_equal ["02", "27", "71", "15"], @enigma.shift_keys("02715")
   end
 
   def test_it_can_get_date
+    skip
     Date.stubs(:today).returns(Date.new(1995, 8, 4))
     assert_equal "040895", @enigma.date
   end
 
   def test_it_produces_offset_from_date
+    skip
     assert_equal ["1", "0", "2", "5"], @enigma.produce_offset("040895")
   end
 
   def test_it_can_add_key_and_offset
+    skip
     assert_equal [3, 27, 73, 20], @enigma.shifts("02715", "040895")
   end
 
