@@ -43,7 +43,17 @@ class EnigmaTest < Minitest::Test
     assert_equal [26, 47, 68, 89], @enigma.shifts("24689", "160890")
   end
 
-  def test_it_can_cipher_with_one_key
+  def test_it_can_get_indexes
+    expected = [7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3]
+    assert_equal expected, @enigma.to_indexes("HELLO WORLD")
+  end
+
+  def test_it_can_add_shifts_to_indexes
+    expected = [33, 30, 37, 37, 40, 52, 48, 40, 43, 37, 29]
+    assert_equal expected, @enigma.shifted_indexes("HELLO WORLD", 26)
+  end
+
+  def test_it_can_cipher
     assert_equal "gdkknzvnqkc", @enigma.cipher("HELLO WORLD", 26)
   end
 end

@@ -38,23 +38,24 @@ class Enigma
     shifts
   end
 
-  def cipher(string, shift)
+  def to_indexes(string)
     alphabet = Array("a".."z")<< " "
     string_array = string.downcase.chars
-    indexed_string = string_array.map do |char|
+    string_array.map do |char|
       alphabet.find_index(char)
     end
-    indexed_string
+  end
 
-    indexed_with_shift = []
-    indexed_string.each_with_index do |number|
-      indexed_with_shift << number + shift
+  def shifted_indexes(string, shift)
+    to_indexes(string).map do |number|
+      number + shift
     end
-    indexed_with_shift
+  end
 
-    indexed_with_shift.map do |number|
+  def cipher(string, shift)
+    alphabet = Array("a".."z")<< " "
+    shifted_indexes(string, shift).map do |number|
       alphabet.rotate(number)[0]
     end.join
   end
-
 end
