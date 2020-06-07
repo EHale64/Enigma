@@ -20,4 +20,8 @@ class ShiftsTest < Minitest::Test
     assert_equal "00005", @shifts.zero_pad(5)
     assert_equal "00000", @shifts.zero_pad(0)
   end
+
+  def test_it_can_split_key_into_keys
+    assert_equal ["02", "27", "71", "15"], @enigma.shift_keys("02715")
+  end
 end
