@@ -42,4 +42,8 @@ class EnigmaTest < Minitest::Test
   def test_it_can_add_key_and_offset
     assert_equal [26, 47, 68, 89], @enigma.shifts("24689", "160890")
   end
+
+  def test_it_can_cipher_with_one_key
+    assert_equal "gdkknzvnqkc", @enigma.cipher("HELLO WORLD", 26)
+  end
 end

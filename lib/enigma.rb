@@ -37,4 +37,24 @@ class Enigma
     end
     shifts
   end
+
+  def cipher(string, shift)
+    alphabet = Array("a".."z")<< " "
+    string_array = string.downcase.chars
+    indexed_string = string_array.map do |char|
+      alphabet.find_index(char)
+    end
+    indexed_string
+
+    indexed_with_shift = []
+    indexed_string.each_with_index do |number|
+      indexed_with_shift << number + shift
+    end
+    indexed_with_shift
+
+    indexed_with_shift.map do |number|
+      alphabet.rotate(number)[0]
+    end.join
+  end
+
 end
