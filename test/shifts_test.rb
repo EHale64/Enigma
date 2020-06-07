@@ -22,6 +22,11 @@ class ShiftsTest < Minitest::Test
   end
 
   def test_it_can_split_key_into_keys
-    assert_equal ["02", "27", "71", "15"], @enigma.shift_keys("02715")
+    assert_equal ["02", "27", "71", "15"], @shifts.shift_keys("02715")
+  end
+
+  def test_it_can_get_date
+    Date.stubs(:today).returns(Date.new(1995, 8, 4))
+    assert_equal "040895", @shifts.date
   end
 end

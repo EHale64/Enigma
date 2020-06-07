@@ -14,4 +14,8 @@ class Shifts
     end
     keys
   end
+
+  def date
+    date = Date.today.strftime("%d%m%y")
+  end
 end
