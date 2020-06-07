@@ -5,7 +5,7 @@ require 'mocha/minitest'
 
 class ShiftsTest < Minitest::Test
   def setup
-    @shifts = Shifts.new
+    @shifts = Shifts.new("02715", "040895")
   end
 
   def test_it_exists

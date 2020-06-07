@@ -1,5 +1,11 @@
 require 'date'
 class Shifts
+
+  def initialize(key, date)
+    @key = key
+    @date = date
+  end
+
   def zero_pad(key)
     pad_num = key.to_s
     pad_num.insert(0, "0") until pad_num.size == 5
