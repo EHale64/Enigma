@@ -15,7 +15,11 @@ class EnigmaTest < Minitest::Test
   def test_it_has_attributes
     expected = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "]
+    @enigma.expects(:key).returns("02715")
+    @enigma.stubs(:date).returns("040895")
     assert_equal expected, @enigma.alphabet
+    assert_equal "02715" , @enigma.key
+    assert_equal "040895" , @enigma.date
   end
 
   def test_it_can_get_string_from_indexes
@@ -31,8 +35,8 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_ignores_non_alphabet_characters
-    assert_equal "keder ohulw!", @enigma.cipher("HELLO WORLD!", [3, 27, 73, 20])
-    assert_equal "hello world!", @enigma.decipher("keder ohulw!", [3, 27, 73, 20])
+    assert_equal "keder ohulw!&", @enigma.cipher("HELLO WORLD!&", [3, 27, 73, 20])
+    assert_equal "hello world!&", @enigma.decipher("keder ohulw!&", [3, 27, 73, 20])
   end
 
   def test_it_can_get_indexes
@@ -62,41 +66,52 @@ class EnigmaTest < Minitest::Test
     assert_equal expected2, @enigma.decryption_output("hello world", "02715", "040895")
   end
 
-
-  def test_it_can_generate_a_random_key
-    skip
-    @enigma.stubs(:rand_key).returns(02715)
-    assert_equal 02715 , @enigma.rand_key
+  def test_it_can_encrypt
+    expected =   {
+     encryption: "keder ohulw",
+     key: "02715",
+     date: "040895"
+                  }
+    assert_equal expected, @enigma.encrypt("hello world", "02715", "040895")
   end
 
-  def test_it_can_generate_a_0_padded_key
-    skip
-    assert_equal "12715", @enigma.zero_pad(12715)
-    assert_equal "02715", @enigma.zero_pad(2715)
-    assert_equal "00715", @enigma.zero_pad(715)
-    assert_equal "00015", @enigma.zero_pad(15)
-    assert_equal "00005", @enigma.zero_pad(5)
-    assert_equal "00000", @enigma.zero_pad(0)
+  def test_it_can_decrypt
+    expected = {
+     decryption: "hello world",
+     key: "02715",
+     date: "040895"
+              }
+    assert_equal expected, @enigma.decrypt("keder ohulw", "02715", "040895")
   end
 
-  def test_it_can_split_key_into_keys
-    skip
-    assert_equal ["02", "27", "71", "15"], @enigma.shift_keys("02715")
+  def test_it_can_encrypt_with_todays_date
+    expected =   {
+     encryption: "nib udmcxpu",
+     key: "02715",
+     date: "080620"
+                  }
+    @enigma.stubs(:date).returns("080620")
+    assert_equal expected, @enigma.encrypt("hello world", "02715")
   end
 
-  def test_it_can_get_date
-    skip
-    Date.stubs(:today).returns(Date.new(1995, 8, 4))
-    assert_equal "040895", @enigma.date
+  def test_it_can_decrypt_with_todays_date
+    expected = {
+     decryption: "hello world",
+     key: "02715",
+     date: "080620"
+              }
+  @enigma.stubs(:date).returns("080620")
+    assert_equal expected, @enigma.decrypt("nib udmcxpu", "02715")
   end
 
-  def test_it_produces_offset_from_date
+  def test_it_can_encrypt_with_default_key_and_date
     skip
-    assert_equal ["1", "0", "2", "5"], @enigma.produce_offset("040895")
-  end
-
-  def test_it_can_add_key_and_offset
-    skip
-    assert_equal [3, 27, 73, 20], @enigma.shifts("02715", "040895")
+    expected =   {
+     encryption: "nib udmcxpu",
+     key: "02715",
+     date: "080620"
+                  }
+    @enigma.stubs(:key).returns(02715)
+    assert_equal expected, @enigma.encrypt("hello world")
   end
 end
