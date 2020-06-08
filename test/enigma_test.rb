@@ -15,7 +15,11 @@ class EnigmaTest < Minitest::Test
   def test_it_has_attributes
     expected = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "]
+    @enigma.expects(:key).returns("02715")
+    @enigma.stubs(:date).returns("040895")
     assert_equal expected, @enigma.alphabet
+    assert_equal "02715" , @enigma.key
+    assert_equal "040895" , @enigma.date
   end
 
   def test_it_can_get_string_from_indexes
@@ -31,8 +35,8 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_ignores_non_alphabet_characters
-    assert_equal "keder ohulw!", @enigma.cipher("HELLO WORLD!", [3, 27, 73, 20])
-    assert_equal "hello world!", @enigma.decipher("keder ohulw!", [3, 27, 73, 20])
+    assert_equal "keder ohulw!&", @enigma.cipher("HELLO WORLD!&", [3, 27, 73, 20])
+    assert_equal "hello world!&", @enigma.decipher("keder ohulw!&", [3, 27, 73, 20])
   end
 
   def test_it_can_get_indexes
@@ -78,5 +82,36 @@ class EnigmaTest < Minitest::Test
      date: "040895"
               }
     assert_equal expected, @enigma.decrypt("keder ohulw", "02715", "040895")
+  end
+
+  def test_it_can_encrypt_with_todays_date
+    expected =   {
+     encryption: "nib udmcxpu",
+     key: "02715",
+     date: "080620"
+                  }
+    @enigma.stubs(:date).returns("080620")
+    assert_equal expected, @enigma.encrypt("hello world", "02715")
+  end
+
+  def test_it_can_decrypt_with_todays_date
+    expected = {
+     decryption: "hello world",
+     key: "02715",
+     date: "080620"
+              }
+  @enigma.stubs(:date).returns("080620")
+    assert_equal expected, @enigma.decrypt("nib udmcxpu", "02715")
+  end
+
+  def test_it_can_encrypt_with_default_key_and_date
+    skip
+    expected =   {
+     encryption: "nib udmcxpu",
+     key: "02715",
+     date: "080620"
+                  }
+    @enigma.stubs(:key).returns(02715)
+    assert_equal expected, @enigma.encrypt("hello world")
   end
 end

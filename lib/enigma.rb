@@ -1,18 +1,20 @@
 require 'date'
 require_relative 'shifts'
 class Enigma
-  attr_reader :alphabet
+  attr_reader :alphabet, :key, :date
 
   def initialize
     @alphabet = Array("a".."z")<< " "
+    @key = rand(99999).to_s
+    @date = Date.today.strftime("%d%m%y")
   end
 
-  def encrypt(string, key, date)
+  def encrypt(string, key = @key, date = @date)
     shifts = Shifts.new(key, date)
     encryption_output(cipher(string, shifts.shifts), key, date)
   end
 
-  def decrypt(string, key, date)
+  def decrypt(string, key, date = @date)
     shifts = Shifts.new(key, date)
     decryption_output(decipher(string, shifts.shifts), key, date)
   end

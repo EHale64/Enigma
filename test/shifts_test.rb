@@ -19,12 +19,11 @@ class ShiftsTest < Minitest::Test
 
   def test_it_can_generate_a_random_key_by_default
     skip
-    @shifts.stubs(:rand_key).returns(02715)
+    
     assert_equal 02715 , @shifts.rand_key
   end
 
   def test_it_can_get_date_by_default
-    skip
     Date.stubs(:today).returns(Date.new(1995, 8, 4))
     assert_equal "040895", @shifts.date
   end
