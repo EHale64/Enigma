@@ -8,16 +8,24 @@ class Enigma
 
   def cipher(string, shifts)
     indexes_plus_shifts = []
-    to_indexes(string).each_with_index do |number, index|
-      indexes_plus_shifts << number + shifts[index%4]
+    to_indexes(string).each_with_index do |element, index|
+      if element.class == String
+        indexes_plus_shifts << element
+      else
+        indexes_plus_shifts << element + shifts[index%4]
+      end
     end
     indexes_to_string(indexes_plus_shifts)
   end
 
   def decipher(string, shifts)
     indexes_plus_shifts = []
-    to_indexes(string).each_with_index do |number, index|
-      indexes_plus_shifts << number - shifts[index%4]
+    to_indexes(string).each_with_index do |element, index|
+      if element.class == String
+        indexes_plus_shifts << element
+      else
+        indexes_plus_shifts << element - shifts[index%4]
+      end
     end
     indexes_to_string(indexes_plus_shifts)
   end
@@ -25,13 +33,21 @@ class Enigma
   def to_indexes(string)
     string_array = string.downcase.chars
     string_array.map do |char|
-      @alphabet.find_index(char)
+      if @alphabet.include?(char) == false
+        char = char
+      else
+        @alphabet.find_index(char)
+      end
     end
   end
 
   def indexes_to_string(shifts)
     shifts.map do |number|
-      @alphabet.rotate(number)[0]
+      if number.class == String
+        number
+      else
+        @alphabet.rotate(number)[0]
+      end
     end.join
   end
   # def rand_key

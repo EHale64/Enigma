@@ -19,17 +19,25 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_get_string_from_indexes
+    skip
     assert_equal "keder ohulw", @enigma.indexes_to_string([10, 31, 84, 31, 17, 53, 95, 34, 20, 38, 76])
   end
 
   def test_it_can_cipher
+    skip
     assert_equal "keder ohulw", @enigma.cipher("HELLO WORLD", [3, 27, 73, 20])
   end
 
   def test_it_can_decipher
+    skip
     assert_equal "hello world", @enigma.decipher("keder ohulw", [3, 27, 73, 20])
   end
-  
+
+  def test_it_ignores_non_alphabet_characters
+    assert_equal "keder ohulw!", @enigma.cipher("HELLO WORLD!", [3, 27, 73, 20])
+    assert_equal "hello world!", @enigma.decipher("keder ohulw!", [3, 27, 73, 20])
+  end
+
   def test_it_can_get_indexes
     expected = [7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3]
     assert_equal expected, @enigma.to_indexes("HELLO WORLD")
@@ -40,6 +48,7 @@ class EnigmaTest < Minitest::Test
     expected = [10, 31, 84, 31, 17, 53, 95, 34, 20, 38, 76]
     assert_equal expected, @enigma.("HELLO WORLD", [3, 27, 73, 20])
   end
+
 
   def test_it_can_generate_a_random_key
     skip
