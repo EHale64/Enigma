@@ -62,6 +62,15 @@ class EnigmaTest < Minitest::Test
     assert_equal expected2, @enigma.decryption_output("hello world", "02715", "040895")
   end
 
+  def test_it_can_encrypt
+    expected =   {
+     encryption: "keder ohulw",
+     key: "02715",
+     date: "040895"
+                  }
+    assert_equal expected, @enigma.encrypt("hello world", "02715", "040895")          
+  end
+
 
   def test_it_can_generate_a_random_key
     skip
