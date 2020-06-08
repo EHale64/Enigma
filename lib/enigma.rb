@@ -12,6 +12,11 @@ class Enigma
     encryption_output(cipher(string, shifts.shifts), key, date)
   end
 
+  def decrypt(string, key, date)
+    shifts = Shifts.new(key, date)
+    decryption_output(decipher(string, shifts.shifts), key, date)
+  end
+
   def cipher(string, shifts)
     indexes_plus_shifts = []
     to_indexes(string).each_with_index do |element, index|
