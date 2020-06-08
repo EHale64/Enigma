@@ -50,6 +50,23 @@ class Enigma
       end
     end.join
   end
+
+  def encryption_output(string, key, date)
+    output = {}
+    output[:encryption] = string
+    output[:key] = key
+    output[:date] = date
+    output
+  end
+
+  def decryption_output(string, key, date)
+    output = {}
+    output[:decryption] = string
+    output[:key] = key
+    output[:date] = date
+    output
+  end
+end
   # def rand_key
   #   rand(99999)
   # end
@@ -87,4 +104,3 @@ class Enigma
   #   end
   #   shifts
   # end
-end
