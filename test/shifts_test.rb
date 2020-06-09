@@ -17,18 +17,8 @@ class ShiftsTest < Minitest::Test
     assert_equal "040895", @shifts.date
   end
 
-  def test_it_can_generate_a_random_key_by_default
-    skip
-    
-    assert_equal 02715 , @shifts.rand_key
-  end
-
-  def test_it_can_get_date_by_default
-    Date.stubs(:today).returns(Date.new(1995, 8, 4))
-    assert_equal "040895", @shifts.date
-  end
-
   def test_it_can_generate_a_0_padded_key
+    assert_equal "error", @shifts.zero_pad(112715)
     assert_equal "12715", @shifts.zero_pad(12715)
     assert_equal "02715", @shifts.zero_pad
     assert_equal "00715", @shifts.zero_pad(715)
@@ -46,6 +36,6 @@ class ShiftsTest < Minitest::Test
   end
 
   def test_it_can_add_keys_and_offsets
-    assert_equal [3, 27, 73, 20], @shifts.shifts
+    assert_equal [3, 27, 73, 20], @shifts.shift_values
   end
 end
