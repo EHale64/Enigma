@@ -7,7 +7,7 @@ class Shifts
     @date = date
   end
 
-  def shifts
+  def shift_values
     shifts = []
     produce_offsets.each_with_index do |element, index|
       shifts << element.to_i + shift_keys[index].to_i
@@ -30,6 +30,7 @@ class Shifts
   end
 
   def zero_pad(key = @key)
+    return "error" if key.to_s.length > 5
     pad_num = key.to_s
     pad_num.insert(0, "0") until pad_num.size == 5
     pad_num

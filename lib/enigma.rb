@@ -11,72 +11,64 @@ class Enigma
 
   def encrypt(string, key = @key, date = @date)
     shifts = Shifts.new(key, date)
-    encryption_output(cipher(string, shifts.shifts), key, date)
+    ciphered_string = cipher(string, shifts.shift_values)
+    encryption_output(ciphered_string, key, date)
   end
 
   def decrypt(string, key, date = @date)
     shifts = Shifts.new(key, date)
-    decryption_output(decipher(string, shifts.shifts), key, date)
+    deciphered_string = decipher(string, shifts.shift_values)
+    decryption_output(deciphered_string, key, date)
   end
 
   def cipher(string, shifts)
-    indexes_plus_shifts = []
-    to_indexes(string).each_with_index do |element, index|
-      if element.class == String
-        indexes_plus_shifts << element
-      else
-        indexes_plus_shifts << element + shifts[index%4]
-      end
-    end
-    indexes_to_string(indexes_plus_shifts)
+    transformed_indexes = transform_indexes(string, shifts, '+')
+    indexes_to_string(transformed_indexes)
   end
 
   def decipher(string, shifts)
-    indexes_plus_shifts = []
-    to_indexes(string).each_with_index do |element, index|
-      if element.class == String
-        indexes_plus_shifts << element
-      else
-        indexes_plus_shifts << element - shifts[index%4]
-      end
-    end
-    indexes_to_string(indexes_plus_shifts)
+    transformed_indexes = transform_indexes(string, shifts, '-')
+    indexes_to_string(transformed_indexes)
   end
 
   def to_indexes(string)
     string_array = string.downcase.chars
     string_array.map do |char|
-      if @alphabet.include?(char) == false
-        char = char
-      else
-        @alphabet.find_index(char)
-      end
+      (char unless @alphabet.include?(char)) || @alphabet.find_index(char)
     end
   end
 
   def indexes_to_string(shifts)
     shifts.map do |number|
-      if number.class == String
-        number
-      else
-        @alphabet.rotate(number)[0]
-      end
+      (number if number.class == String) || @alphabet.rotate(number)[0]
     end.join
   end
 
+  def transform_indexes(string, shifts, operator)
+    indexes_plus_shifts = []
+    to_indexes(string).each_with_index do |element, index|
+      if element.class == String
+        indexes_plus_shifts << element
+      else
+        indexes_plus_shifts << element.send(operator, shifts[index%4])
+      end
+    end
+    indexes_plus_shifts
+  end
+
   def encryption_output(string, key, date)
-    output = {}
-    output[:encryption] = string
-    output[:key] = key
-    output[:date] = date
-    output
+    {
+      encryption: string,
+      key: key,
+      date: date
+    }
   end
 
   def decryption_output(string, key, date)
-    output = {}
-    output[:decryption] = string
-    output[:key] = key
-    output[:date] = date
-    output
+    {
+      decryption: string,
+      key: key,
+      date: date
+    }
   end
 end
