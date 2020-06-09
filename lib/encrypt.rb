@@ -5,7 +5,7 @@ string = file.read.strip
 enigma = Enigma.new
 key = "82648"
 date = "240818"
-encrypted = enigma.encrypt(string, "82648", "240818")[:encryption]
+encrypted = enigma.encrypt(string, key, date)[:encryption]
 
 encryption = ARGV[1]
 new_file = File.new( encryption, 'w')
